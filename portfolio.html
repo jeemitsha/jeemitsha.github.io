@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeet Shah — Freelance Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --surface: #131316;
+    --border: #1E1E24;
+    --text: #E8E8ED;
+    --text-muted: #8A8A99;
+    --accent: #C4F847;
+    --accent-dim: rgba(196, 248, 71, 0.08);
+    --accent-glow: rgba(196, 248, 71, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--bg);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 11, 0.8);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--bg) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: var(--accent-dim);
+    border: 1px solid rgba(196, 248, 71, 0.12);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    width: fit-content;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--accent-glow);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text-muted);
+    background: rgba(255,255,255,0.03);
+  }
+
+  /* Floating gradient orb */
+  .hero-orb {
+    position: absolute;
+    right: -5%;
+    top: 20%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === SECTION COMMON === */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 3rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  /* === SERVICES === */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--surface);
+    padding: 2.25rem;
+    transition: background 0.3s;
+    position: relative;
+  }
+
+  .service-card:hover {
+    background: rgba(196, 248, 71, 0.03);
+  }
+
+  .service-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.2rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .service-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  /* === PROJECTS === */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card:hover {
+    border-color: rgba(196, 248, 71, 0.2);
+    transform: translateY(-3px);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-type {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .project-tags span {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* === TECH STACK === */
+  .stack-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .stack-tag {
+    padding: 0.55rem 1.1rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: border-color 0.2s, background 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .stack-tag:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* === ABOUT === */
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-text {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .about-text p + p { margin-top: 1.25rem; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  /* === PROCESS === */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .step {
+    background: var(--surface);
+    padding: 2rem;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .step h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .step p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* === CONTACT === */
+  #contact {
+    text-align: center;
+    padding-bottom: 8rem;
+  }
+
+  #contact .section-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* === FOOTER === */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* === DIVIDER === */
+  .divider {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero { padding: 7rem 1.25rem 3rem; }
+    .hero-orb { width: 250px; height: 250px; right: -10%; top: 10%; }
+    section { padding: 4rem 1.25rem; }
+    .about-content { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">jeet<span>.</span></a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact" class="nav-cta">Let's Talk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-badge">Available for freelance projects</div>
+  <h1>I build products<br>that <em>actually</em> ship.</h1>
+  <p class="hero-sub">Founding engineer with experience building full SaaS platforms from scratch. I help startups and founders go from idea to production-ready product — fast.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Start a Project ↗</a>
+    <a href="#work" class="btn-secondary">See My Work</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Do</div>
+  <h2 class="section-title">End-to-end product engineering</h2>
+  <p class="section-desc">Not just code — I think in products. From architecture decisions to the final pixel, I own the full stack.</p>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <h3>MVP Development</h3>
+      <p>Go from zero to a working product in weeks. I've built entire SaaS platforms from the ground up — architecture, backend, frontend, deployment.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🤖</div>
+      <h3>AI & LLM Integration</h3>
+      <p>Production-ready AI features — voice agents, document processing, intelligent automation, and real-time AI pipelines using OpenAI, Google AI, and more.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔗</div>
+      <h3>Real-time Systems</h3>
+      <p>Collaborative editing, WebSocket architectures, live data sync, and telephony integrations that scale under real-world conditions.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚀</div>
+      <h3>Full-Stack Applications</h3>
+      <p>React/Next.js frontends, Node.js/Python backends, PostgreSQL, AWS infrastructure — complete systems built for production, not demos.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <h3>Mobile & Web Apps</h3>
+      <p>Responsive web applications and Android development. Clean interfaces, smooth interactions, and thoughtful UX for your users.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛡️</div>
+      <h3>Security & DRM</h3>
+      <p>Content protection systems, tamper detection, watermarking, and security-focused architectures for sensitive applications.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="work">
+  <div class="section-label">Featured Work</div>
+  <h2 class="section-title">Things I've built</h2>
+  <p class="section-desc">Production systems serving real users. Here's a selection of what I've shipped.</p>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-type">SaaS Platform</div>
+      <h3>AI-Powered Industry Platform</h3>
+      <p>Built a complete SaaS platform from scratch as founding engineer — real-time collaborative forms, EMR/document management, inventory tracking, PDF generation, and multi-tenant architecture serving US clients.</p>
+      <div class="project-tags">
+        <span>React</span>
+        <span>Node.js</span>
+        <span>PostgreSQL</span>
+        <span>AWS</span>
+        <span>Yjs CRDT</span>
+        <span>WebSockets</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">AI Voice Agent</div>
+      <h3>Automated Call System</h3>
+      <p>Designed and built an AI voice agent for automated outbound calls — real-time speech processing, background noise cancellation with RNNoise, intelligent turn detection, and telephony integration.</p>
+      <div class="project-tags">
+        <span>OpenAI Realtime API</span>
+        <span>RNNoise</span>
+        <span>Telephony</span>
+        <span>WebSockets</span>
+        <span>VAD</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">Security</div>
+      <h3>DRM Video Player</h3>
+      <p>Canvas-based video player with real-time watermarking, tamper detection via Shadow DOM, and modular security architecture — built for content protection at scale.</p>
+      <div class="project-tags">
+        <span>Canvas API</span>
+        <span>Shadow DOM</span>
+        <span>JavaScript</span>
+        <span>Security</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">Document AI</div>
+      <h3>Intelligent Document Processing</h3>
+      <p>OCR extraction pipeline for complex clinical documents — using Google Generative AI with structured validation (Zod schemas) to parse and normalize unstructured data into actionable records.</p>
+      <div class="project-tags">
+        <span>Google AI</span>
+        <span>Zod</span>
+        <span>TypeScript</span>
+        <span>OCR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TECH STACK -->
+<section id="stack">
+  <div class="section-label">Tech Stack</div>
+  <h2 class="section-title">Tools I work with</h2>
+  <p class="section-desc">Battle-tested technologies I use to build production systems.</p>
+
+  <div class="stack-grid">
+    <span class="stack-tag">React</span>
+    <span class="stack-tag">Next.js</span>
+    <span class="stack-tag">TypeScript</span>
+    <span class="stack-tag">Node.js</span>
+    <span class="stack-tag">Python</span>
+    <span class="stack-tag">PostgreSQL</span>
+    <span class="stack-tag">AWS (Lambda, SQS, S3)</span>
+    <span class="stack-tag">OpenAI APIs</span>
+    <span class="stack-tag">Google Cloud / AI</span>
+    <span class="stack-tag">WebSockets</span>
+    <span class="stack-tag">Yjs / CRDTs</span>
+    <span class="stack-tag">Twilio / Telephony</span>
+    <span class="stack-tag">Redis</span>
+    <span class="stack-tag">Docker</span>
+    <span class="stack-tag">Serverless Framework</span>
+    <span class="stack-tag">Git</span>
+    <span class="stack-tag">NestJS</span>
+    <span class="stack-tag">Android</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-label">How I Work</div>
+  <h2 class="section-title">From idea to production</h2>
+  <p class="section-desc">A streamlined process built from shipping real products.</p>
+
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Discovery</h3>
+      <p>Understand your problem, users, and constraints. Define what "done" looks like before writing any code.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Architecture</h3>
+      <p>Design the system for today's needs and tomorrow's scale. Tech choices that won't paint you into a corner.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Build & Iterate</h3>
+      <p>Ship fast, get feedback, iterate. You'll see working software early and often — not just status updates.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Launch & Support</h3>
+      <p>Deployment, monitoring, and handoff. I make sure your product runs reliably in production.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">A bit about me</h2>
+
+  <div class="about-content">
+    <div class="about-text">
+      <p>I'm a founding engineer who's spent the last 14+ months building a full SaaS platform from the ground up — not inheriting a codebase, but making every architecture decision, shipping every feature, and keeping it running in production for real users.</p>
+      <p>I work across the entire stack: frontend interfaces, backend APIs, cloud infrastructure, AI/ML integrations, real-time systems, and telephony. I've shipped AI voice agents, collaborative real-time editing, document processing pipelines, and security systems.</p>
+      <p>I'm based in India but work primarily with US-based clients and startups. I understand startup speed — when you need to ship yesterday, not next quarter.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-number">14+</div>
+        <div class="stat-label">Months as Founding Engineer</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Full</div>
+        <div class="stat-label">Stack Coverage</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">US</div>
+        <div class="stat-label">Market Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">AI</div>
+        <div class="stat-label">Native Builder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Let's build something</h2>
+  <p class="section-desc">Have a project in mind? I'm currently available for freelance work and would love to hear what you're building.</p>
+
+  <a href="/cdn-cgi/l/email-protection#651c0a1017250008040c094b060a08" class="btn-primary" style="margin-bottom: 1.5rem;"><span class="__cf_email__" data-cfemail="631a0c161123060e020a0f4d000c0e">[email&#160;protected]</span> ↗</a>
+
+  <div class="contact-links">
+    <a href="https://wa.me/91XXXXXXXXXX" class="contact-link" target="_blank">💬 WhatsApp</a>
+    <a href="https://github.com/yourusername" class="contact-link" target="_blank">⌨️ GitHub</a>
+    <a href="https://linkedin.com/in/yourusername" class="contact-link" target="_blank">💼
